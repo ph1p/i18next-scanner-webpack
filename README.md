@@ -1,5 +1,6 @@
 ## i18next-scanner-webpack
 
+[![npm](https://img.shields.io/npm/v/i18next-scanner-webpack.svg)](https://www.npmjs.com/package/i18next-scanner-webpack)
 
 This is a simple i18n-scanner webpack-plugin.
 Based on this package: [i18next-scanner](https://github.com/i18next/i18next-scanner).
@@ -19,11 +20,14 @@ module.exports = {
   },
   plugins: [
     new i18nextWebpackPlugin({
-      src: path.resolve(__dirname, './src/**/*.{js,html}'),
+      // no extensions needed. Extensions are defined in func.
+      // default ['.js', '.jsx', '.vue']
+      src: path.resolve(__dirname, './src/**/*'),
       dest: path.resolve(__dirname, 'locales'),
       options: {
         func: {
-          list: ['i18next.t', 'i18n.t']
+          list: ['t', '$t', 'i18next.t', 'i18n.t'],
+          extensions: ['.js', '.jsx'] // optional
         },
         lngs: ['en', 'de'],
         resource: {

@@ -3,8 +3,14 @@ const vfs = require('vinyl-fs');
 const path = require('path');
 
 let i18nConfig = {};
+let extensions = ['.js', '.jsx', '.vue'];
+
 function i18nextWebpackPlugin(config) {
   i18nConfig = config;
+
+  if(i18nConfig.func && i18nConfig.func.extensions) {
+    extensions = i18nConfig.func.extensions;
+  }
 }
 
 i18nextWebpackPlugin.prototype.apply = function(compiler) {
@@ -24,7 +30,7 @@ i18nextWebpackPlugin.prototype.apply = function(compiler) {
     }
 
     vfs
-      .src(i18nConfig.src)
+      .src(`${i18nConfig.src}.{${extensions.join(',')}}`)
       .pipe(scanner(i18nConfig.options, i18nConfig.transform, i18nConfig.flush))
       .pipe(vfs.dest(i18nConfig.dest))
       .on('end', function() {
