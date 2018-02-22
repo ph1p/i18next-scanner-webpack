@@ -8,7 +8,7 @@ Based on this package: [i18next-scanner](https://github.com/i18next/i18next-scan
 
 **Example webpack.config.js**
 
-```
+```javascript
 const path = require('path');
 const i18nextWebpackPlugin = require('i18next-scanner-webpack');
 
