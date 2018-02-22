@@ -1,6 +1,6 @@
 {
   "name": "i18next-scanner-webpack",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple i18next-scanner webpack plugin",
   "main": "index.js",
   "scripts": {
