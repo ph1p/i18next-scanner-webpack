@@ -13,6 +13,24 @@
     "i18next-scanner": "^2.1.5",
     "vinyl-fs": "^2.4.4"
   },
+  "prettier": {
+    "useTabs": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "printWidth": 120,
+    "trailingComma": "none"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue,scss}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "devDependencies": {},
   "repository": {
     "type": "git",

@@ -5,7 +5,6 @@
 This is a simple i18n-scanner webpack-plugin.
 Based on this package: [i18next-scanner](https://github.com/i18next/i18next-scanner).
 
-
 **Example webpack.config.js**
 
 ```javascript
@@ -13,6 +12,7 @@ const path = require('path');
 const i18nextWebpackPlugin = require('i18next-scanner-webpack');
 
 module.exports = {
+  mode: 'development',
   entry: path.resolve(__dirname, './src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -21,13 +21,13 @@ module.exports = {
   plugins: [
     new i18nextWebpackPlugin({
       // no extensions needed. Extensions are defined in func.
-      // default ['.js', '.jsx', '.vue']
-      src: path.resolve(__dirname, './src/**/*'),
-      dest: path.resolve(__dirname, 'locales'),
+      // See options at https://github.com/i18next/i18next-scanner#options
+      // src defaults to ./src
+      // dist defaults to ./locales
       options: {
         func: {
-          list: ['t', '$t', 'i18next.t', 'i18n.t'],
-          extensions: ['.js', '.jsx'] // optional
+          list: ['t', '$t', 'i18next.t', 'i18n.t'], // default ['i18next.t', 'i18n.t']
+          extensions: ['js', 'jsx'] // default ['js', 'jsx', 'vue']
         },
         lngs: ['en', 'de'],
         resource: {
@@ -36,15 +36,20 @@ module.exports = {
         }
       }
     })
+    // minimal plugin options
+    // new i18nextWebpackPlugin({
+    //   options: {
+    //     lngs: ['en', 'de']
+    //   }
+    // })
   ]
 };
 ```
 
-
-| Name  |  Description | Optional |
-|---|---|---|
-| src  | source path of files with i18next translations | no |
-| dist  | destination of translation files | no |
-| options  | all options | yes |
+| Name    | Description                                    | default   | Optional |
+| ------- | ---------------------------------------------- | --------- | -------- |
+| src     | source path of files with i18next translations | ./src     | yes      |
+| dist    | destination of translation files               | ./locales | yes      |
+| options | all options                                    |           | yes      |
 
 Available options: [here](https://www.i18next.com/configuration-options.html)
