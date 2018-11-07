@@ -76,7 +76,7 @@ class i18nextWebpackPlugin {
     }
     // check dest directory
     if (!this.i18nConfig.dest) {
-      this.i18nConfig.dest = path.join(__dirname, 'locales');
+      this.i18nConfig.dest = path.join(__dirname.split('node_modules')[0], 'locales');
     }
 
     compiler.hooks.emit.tapAsync('i18nextWebpackPlugin', (compilation, callback) => {
