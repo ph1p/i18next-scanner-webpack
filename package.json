@@ -1,6 +1,6 @@
 {
   "name": "i18next-scanner-webpack",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Simple i18next-scanner webpack plugin",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "Philip Stapelfeldt <phil@capshake.com>",
   "license": "MIT",
   "dependencies": {
-    "i18next-scanner": "^2.7.0",
+    "i18next-scanner": "^2.9.0",
     "vinyl-fs": "^2.4.4"
   },
   "babel": {
