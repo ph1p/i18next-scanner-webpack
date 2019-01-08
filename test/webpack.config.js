@@ -12,6 +12,9 @@ module.exports = {
     new i18nextWebpackPlugin({
       dest: './test/locales',
       options: {
+        attr: {
+          extensions: ['.html']
+        },
         func: {
           extensions: ['.js'],
           list: ['i18next.t', 'i18n.t', 't', '$t']

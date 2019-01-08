@@ -26,15 +26,20 @@ class i18nextWebpackPlugin {
       }
 
       if (this.i18nConfig.options.func.extensions) {
-        this.extensions = this.i18nConfig.options.func.extensions;
+        this.extensions = this.i18nConfig.options.func.extensions.slice();
       } else {
-        this.i18nConfig.options.func.extensions = this.extensions;
+        this.i18nConfig.options.func.extensions = this.extensions.slice();
       }
-
-      // Remove leading dot
-      this.extensions = this.extensions.map(ext => ext.replace(/^\./, ''));
     }
 
+    if (this.i18nConfig.options.attr) {
+      if (this.i18nConfig.options.attr.extensions) {
+        this.extensions = this.extensions.concat(this.i18nConfig.options.attr.extensions);
+      }
+    }
+
+    // Remove leading dot
+    this.extensions = this.extensions.map(ext => ext.replace(/^\./, ''));
     if (!this.i18nConfig.options.resource) {
       this.i18nConfig.options.resource = {
         loadPath: '{{lng}}/{{ns}}.json',
