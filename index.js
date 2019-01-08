@@ -2,7 +2,7 @@ const scanner = require('i18next-scanner');
 const vfs = require('vinyl-fs');
 const path = require('path');
 
-const isModule = filePath => !filePath.startsWith('/') && !filePath.startsWith('./');
+const isModule = filePath => !path.isAbsolute(filePath) && !filePath.startsWith('/') && !filePath.startsWith('./');
 const removeDuplicatedFromArray = arr => Array.from(new Set(arr).values());
 class i18nextWebpackPlugin {
   constructor(config) {
@@ -51,7 +51,7 @@ class i18nextWebpackPlugin {
       const entry = compiler.options.entry;
 
       if (typeof entry === 'string') {
-        this.i18nConfig.src = [entry.substring(0, entry.lastIndexOf('/'))];
+        this.i18nConfig.src = [path.dirname(entry)];
       } else if (typeof entry === 'object') {
         // filter relative paths
 
@@ -61,10 +61,10 @@ class i18nextWebpackPlugin {
           let paths = [];
 
           if (Array.isArray(currentEntry)) {
-            paths = currentEntry.filter(e => !isModule(e)).map(e => e.substring(0, e.lastIndexOf('/')));
+            paths = currentEntry.filter(e => !isModule(e)).map(e => path.dirname(e));
           } else {
             if (!isModule(currentEntry)) {
-              paths.push(currentEntry.substring(0, currentEntry.lastIndexOf('/')));
+              paths.push(path.dirname(currentEntry));
             }
           }
 
@@ -84,7 +84,7 @@ class i18nextWebpackPlugin {
         console.error('i18next-scanner:', 'i18n object is missing');
         return;
       }
-      if (!this.i18nConfig.src) {
+      if (!this.i18nConfig.src || this.i18nConfig.src.length === 0) {
         console.error('i18next-scanner:', 'src path is missing');
         return;
       }
