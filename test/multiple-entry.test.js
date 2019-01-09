@@ -37,6 +37,11 @@ describe('webpack', () => {
       'hi-iam-i18n': '',
       deep: {
         deeper: ''
+      },
+      trans: {
+        html: {
+          key: ''
+        }
       }
     });
     expect(localeGerman).toEqual({
@@ -46,6 +51,11 @@ describe('webpack', () => {
       'hi-iam-i18n': '',
       deep: {
         deeper: ''
+      },
+      trans: {
+        html: {
+          key: ''
+        }
       }
     });
   });
