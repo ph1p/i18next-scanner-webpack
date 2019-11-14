@@ -12,7 +12,7 @@
   "author": "Philip Stapelfeldt <phil@capshake.com>",
   "license": "MIT",
   "dependencies": {
-    "i18next-scanner": "^2.10.2",
+    "i18next-scanner": "^2.10.3",
     "vinyl-fs": "^3.0.3"
   },
   "babel": {
@@ -67,15 +67,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/runtime": "^7.5.5",
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/runtime": "^7.7.2",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "regenerator-runtime": "^0.13.3",
-    "rimraf": "^2.6.3",
-    "webpack": "^4.36.1"
+    "rimraf": "^3.0.0",
+    "webpack": "^4.41.2"
   },
   "repository": {
     "type": "git",
