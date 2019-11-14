@@ -1,6 +1,6 @@
 ## i18next-scanner-webpack
 
-[![npm](https://img.shields.io/npm/v/i18next-scanner-webpack.svg)](https://www.npmjs.com/package/i18next-scanner-webpack) [![Build Status](https://travis-ci.org/ph1p/i18next-scanner-webpack.svg?branch=master)](https://travis-ci.org/ph1p/i18next-scanner-webpack)
+[![npm](https://img.shields.io/npm/v/i18next-scanner-webpack.svg)](https://www.npmjs.com/package/i18next-scanner-webpack) [![Build Status](https://github.com/ph1p/i18next-scanner-webpack/workflows/Test%20and%20publish%20to%20npm/badge.svg)]()
 
 This is a simple i18n-scanner webpack-plugin.
 Based on this package: [i18next-scanner](https://github.com/i18next/i18next-scanner).
