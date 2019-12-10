@@ -27,8 +27,8 @@ module.exports = {
         func: {
           // default ['i18next.t', 'i18n.t']
           list: ['t', '$t', 'i18next.t', 'i18n.t'],
-          // default ['js', 'jsx', 'vue']
-          extensions: ['js', 'jsx']
+          // default ['.js', '.jsx', '.vue']
+          extensions: ['.js', '.jsx']
         },
         lngs: ['en', 'de'],
         // both defaults to {{lng}}/{{ns}}.json
@@ -43,6 +43,7 @@ module.exports = {
 ```
 
 **Minimal setup:**
+
 ```javascript
 const path = require('path');
 const i18nextWebpackPlugin = require('i18next-scanner-webpack');
