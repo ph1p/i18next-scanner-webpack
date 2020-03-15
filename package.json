@@ -67,15 +67,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/runtime": "^7.7.7",
-    "babel-jest": "^24.9.0",
-    "jest": "^24.9.0",
-    "regenerator-runtime": "^0.13.3",
-    "rimraf": "^3.0.0",
-    "webpack": "^4.41.5"
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/runtime": "^7.8.7",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "regenerator-runtime": "^0.13.5",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.42.0"
   },
   "repository": {
     "type": "git",
