@@ -22,7 +22,7 @@ module.exports = {
     new i18nextWebpackPlugin({
       // See options at https://github.com/i18next/i18next-scanner#options
       // src defaults to ./src
-      // dist defaults to ./locales
+      // dest defaults to ./locales
       options: {
         func: {
           // default ['i18next.t', 'i18n.t']
@@ -68,7 +68,7 @@ module.exports = {
 | Name    | Description                                    | default   | Optional |
 | ------- | ---------------------------------------------- | --------- | -------- |
 | src     | source path of files with i18next translations | ./src     | yes      |
-| dist    | destination of translation files               | ./locales | yes      |
+| dest    | destination of translation files               | ./locales | yes      |
 | options | all options                                    |           | yes      |
 
 Available options: [here](https://www.i18next.com/configuration-options.html)
