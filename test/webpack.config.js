@@ -1,5 +1,5 @@
 const path = require('path');
-const i18nextWebpackPlugin = require('../index');
+const I18nextWebpackPlugin = require('../index');
 
 module.exports = {
   mode: 'development',
@@ -9,7 +9,7 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
-    new i18nextWebpackPlugin({
+    new I18nextWebpackPlugin({
       dest: './test/locales',
       options: {
         attr: {

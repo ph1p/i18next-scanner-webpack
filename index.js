@@ -2,9 +2,28 @@ const scanner = require('i18next-scanner');
 const vfs = require('vinyl-fs');
 const path = require('path');
 
-const isModule = filePath => !path.isAbsolute(filePath) && !filePath.startsWith('/') && !filePath.startsWith('./');
-const removeDuplicatedFromArray = arr => Array.from(new Set(arr).values());
-class i18nextWebpackPlugin {
+const isModule = (filePath) => !path.isAbsolute(filePath) && !filePath.startsWith('/') && !filePath.startsWith('./');
+const removeDuplicatesFromArray = (arr) => Array.from(new Set(arr).values());
+
+const searchForAllFilePaths = (currentEntry, depth = 0) => {
+  let paths = [];
+
+  if (Array.isArray(currentEntry) || Array.isArray(currentEntry.import)) {
+    let entriesInCurrentEntry = currentEntry;
+    if (currentEntry.import) {
+      entriesInCurrentEntry = currentEntry.import;
+    }
+
+    paths = entriesInCurrentEntry.filter((e) => !isModule(e)).map((e) => path.dirname(e));
+  } else {
+    if (!isModule(currentEntry)) {
+      paths.push(path.dirname(currentEntry));
+    }
+  }
+
+  return paths;
+};
+class I18nextWebpackPlugin {
   constructor(config) {
     this.extensions = ['.js', '.jsx', '.vue'];
     this.i18nConfig = config;
@@ -39,7 +58,7 @@ class i18nextWebpackPlugin {
     }
 
     // Remove leading dot
-    this.extensions = this.extensions.map(ext => ext.replace(/^\./, ''));
+    this.extensions = this.extensions.map((ext) => ext.replace(/^\./, ''));
     if (!this.i18nConfig.options.resource) {
       this.i18nConfig.options.resource = {
         loadPath: '{{lng}}/{{ns}}.json',
@@ -47,36 +66,23 @@ class i18nextWebpackPlugin {
       };
     }
   }
-  apply(compiler) {
-    // entry
-    const entry = compiler.options.entry;
 
+  apply(compiler) {
     // check source directory
     if (!this.i18nConfig.src) {
+      // entry
       const entry = compiler.options.entry;
 
       if (typeof entry === 'string') {
         this.i18nConfig.src = [path.dirname(entry)];
       } else if (typeof entry === 'object') {
         // filter relative paths
-
         let entries = [];
-        Object.keys(entry).forEach(e => {
-          const currentEntry = entry[e];
-          let paths = [];
-
-          if (Array.isArray(currentEntry)) {
-            paths = currentEntry.filter(e => !isModule(e)).map(e => path.dirname(e));
-          } else {
-            if (!isModule(currentEntry)) {
-              paths.push(path.dirname(currentEntry));
-            }
-          }
-
-          entries = entries.concat(paths);
+        Object.keys(entry).forEach((e) => {
+          entries = entries.concat(searchForAllFilePaths(entry[e]));
         });
 
-        this.i18nConfig.src = removeDuplicatedFromArray(entries);
+        this.i18nConfig.src = removeDuplicatesFromArray(entries);
       }
     }
     // check dest directory
@@ -98,11 +104,11 @@ class i18nextWebpackPlugin {
         return;
       }
 
-      const commaSeperatedExtensions = this.extensions.map(ext => ext.replace(/^\./, '')).join(',');
+      const commaSeperatedExtensions = this.extensions.map((ext) => ext.replace(/^\./, '')).join(',');
 
       vfs
         .src(
-          this.i18nConfig.src.map(e =>
+          this.i18nConfig.src.map((e) =>
             path.join(
               e,
               `**/*.${this.extensions.length === 1 ? commaSeperatedExtensions : `{${commaSeperatedExtensions}}`}`
@@ -116,4 +122,4 @@ class i18nextWebpackPlugin {
   }
 }
 
-module.exports = i18nextWebpackPlugin;
+module.exports = I18nextWebpackPlugin;
