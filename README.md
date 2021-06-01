@@ -65,10 +65,38 @@ module.exports = {
 };
 ```
 
-| Name    | Description                                    | default   | Optional |
-| ------- | ---------------------------------------------- | --------- | -------- |
-| src     | source path of files with i18next translations | ./src     | yes      |
-| dest    | destination of translation files               | ./locales | yes      |
-| options | all options                                    |           | yes      |
+**Faster dev loops:**
+
+If `async` option is `true`, the plugin will not wait for `i18next-scanner` to finish before reporting back to webpack. Useful in large projects or when using an expensive `transform`.
+
+```javascript
+const path = require('path');
+const i18nextWebpackPlugin = require('i18next-scanner-webpack');
+
+module.exports = {
+  mode: 'development',
+  entry: path.resolve(__dirname, './src/index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js'
+  },
+  plugins: [
+    new i18nextWebpackPlugin({
+      options: {
+        lngs: ['en', 'de']
+      },
+      async: true
+    })
+  ]
+};
+```
+
+| Name      | Description                                    | default   | Optional |
+| --------- | ---------------------------------------------- | --------- | -------- |
+| src       | source path of files with i18next translations | ./src     | yes      |
+| dest      | destination of translation files               | ./locales | yes      |
+| options   | all options                                    |           | yes      |
+| transform | a custom transform function to apply           |           | yes      |
+| async     | If true, immediately report back to webpack    | false     | yes      |
 
 Available options: [here](https://www.i18next.com/configuration-options.html)

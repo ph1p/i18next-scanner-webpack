@@ -117,7 +117,17 @@ class I18nextWebpackPlugin {
         )
         .pipe(scanner(this.i18nConfig.options, this.i18nConfig.transform, this.i18nConfig.flush))
         .pipe(vfs.dest(this.i18nConfig.dest))
-        .on('end', () => callback());
+        .on('end', () => {
+          if (this.i18nConfig.async) {
+            console.log('i18next-scanner: done.');
+          } else {
+            callback();
+          }
+        });
+
+      if (this.i18nConfig.async) {
+        callback();
+      }
     });
   }
 }
