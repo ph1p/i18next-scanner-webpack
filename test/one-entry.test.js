@@ -4,10 +4,10 @@ import { cleanUp, waitForWebpack } from './utils';
 
 describe('webpack', () => {
   beforeEach(async () => {
-    cleanUp(webpackOptions);
+    cleanUp(webpackOptions.config);
 
     return waitForWebpack(
-      Object.assign(webpackOptions, {
+      Object.assign(webpackOptions.config, {
         entry: {
           client: ['@babel/polyfill', path.resolve(__dirname, './translate.js')]
         }
@@ -15,7 +15,7 @@ describe('webpack', () => {
     );
   });
 
-  afterEach(() => cleanUp(webpackOptions));
+  afterEach(() => cleanUp(webpackOptions.config));
 
   test('Test webpack implementation (one entry)', () => {
     const localeEnglish = require('./locales/en/translation.json');
