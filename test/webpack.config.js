@@ -2,16 +2,16 @@ const path = require('path');
 const I18nextWebpackPlugin = require('../index');
 
 const i18nextPluginConfig = {
-  dest: './test/locales',
+  dest: './test',
+  extensions: ['js', 'html'],
   options: {
-    attr: {
-      extensions: ['.html']
-    },
-    func: {
-      extensions: ['.js'],
-      list: ['i18next.t', 'i18n.t', 't', '$t']
-    },
-    lngs: ['en', 'de']
+    locales: ['en', 'de'],
+    lexers: {
+      js: [{
+        lexer: 'JavascriptLexer',
+        functions: ['i18next.t', 'i18n.t', 't', '$t']
+      }]
+    }
   }
 };
 

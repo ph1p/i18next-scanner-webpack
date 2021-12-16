@@ -12,7 +12,7 @@
   "author": "Philip Stapelfeldt <phil@capshake.com>",
   "license": "MIT",
   "dependencies": {
-    "i18next-scanner": "^3.0.0",
+    "i18next-parser": "^5.3.0",
     "vinyl-fs": "^3.0.3"
   },
   "babel": {
