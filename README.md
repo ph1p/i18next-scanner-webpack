@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/i18next-scanner-webpack.svg)](https://www.npmjs.com/package/i18next-scanner-webpack) [![Build Status](https://github.com/ph1p/i18next-scanner-webpack/workflows/Test%20and%20publish%20to%20npm/badge.svg)]()
 
 This is a simple i18n-scanner webpack-plugin.
-Based on this package: [i18next-scanner](https://github.com/i18next/i18next-scanner).
+Based on this package: [i18next-parser](https://github.com/i18next/i18next-parser).
 
 **Example webpack.config.js**
 
@@ -20,22 +20,22 @@ module.exports = {
   },
   plugins: [
     new i18nextWebpackPlugin({
-      // See options at https://github.com/i18next/i18next-scanner#options
       // src defaults to ./src
-      // dest defaults to ./locales
+      // dest defaults to ./ (project root folder)
+      // default ['.js', '.jsx', '.vue']
+      extensions: ['.js', '.jsx']
+      // See options at https://github.com/i18next/i18next-parser#options
       options: {
-        func: {
-          // default ['i18next.t', 'i18n.t']
-          list: ['t', '$t', 'i18next.t', 'i18n.t'],
-          // default ['.js', '.jsx', '.vue']
-          extensions: ['.js', '.jsx']
+        lexers: {
+          js: [{
+            lexer: 'JavascriptLexer',
+            // default ['t']
+            functions: ['t', '$t', 'i18next.t', 'i18n.t'],
+          }]
         },
-        lngs: ['en', 'de'],
-        // both defaults to {{lng}}/{{ns}}.json
-        resource: {
-          loadPath: '{{lng}}/{{ns}}.json',
-          savePath: '{{lng}}/{{ns}}.json'
-        }
+        locales: ['en', 'de'],
+        // defaults to locales/$LOCALE/$NAMESPACE.json
+        output: '$LOCALE/$NAMESPACE.json'
       }
     })
   ]
@@ -58,7 +58,7 @@ module.exports = {
   plugins: [
     new i18nextWebpackPlugin({
       options: {
-        lngs: ['en', 'de']
+        locales: ['en', 'de']
       }
     })
   ]
@@ -83,7 +83,7 @@ module.exports = {
   plugins: [
     new i18nextWebpackPlugin({
       options: {
-        lngs: ['en', 'de']
+        locales: ['en', 'de']
       },
       async: true
     })
@@ -96,7 +96,6 @@ module.exports = {
 | src       | source path of files with i18next translations | ./src     | yes      |
 | dest      | destination of translation files               | ./locales | yes      |
 | options   | all options                                    |           | yes      |
-| transform | a custom transform function to apply           |           | yes      |
 | async     | If true, immediately report back to webpack    | false     | yes      |
 
-Available options: [here](https://www.i18next.com/configuration-options.html)
+Available options: [here](https://github.com/i18next/i18next-parser#options)

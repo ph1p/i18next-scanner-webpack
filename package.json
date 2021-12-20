@@ -12,8 +12,8 @@
   "author": "Philip Stapelfeldt <phil@capshake.com>",
   "license": "MIT",
   "dependencies": {
-    "i18next-scanner": "^1.2.1",
-    "vinyl-fs": "^2.4.1"
+    "i18next-parser": "^5.3.0",
+    "vinyl-fs": "^3.0.3"
   },
   "babel": {
     "presets": [

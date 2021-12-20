@@ -1,4 +1,4 @@
-const scanner = require('i18next-scanner');
+const { transform } = require('i18next-parser');
 const vfs = require('vinyl-fs');
 const path = require('path');
 
@@ -28,43 +28,12 @@ class I18nextWebpackPlugin {
     this.extensions = ['.js', '.jsx', '.vue'];
     this.i18nConfig = config;
 
-    if (this.i18nConfig.options.func) {
-      if (!this.i18nConfig.options.func.list) {
-        this.i18nConfig.options.func.list = ['i18next.t', 'i18n.t'];
-      }
-
-      // Prevent "Unable to parse Trans component with the content" error
-      if (!this.i18nConfig.options.trans) {
-        this.i18nConfig.options.trans = {
-          component: 'Trans',
-          i18nKey: 'i18nKey',
-          defaultsKey: 'defaults',
-          extensions: ['.jsx'],
-          fallbackKey: false
-        };
-      }
-
-      if (this.i18nConfig.options.func.extensions) {
-        this.extensions = this.i18nConfig.options.func.extensions.slice();
-      } else {
-        this.i18nConfig.options.func.extensions = this.extensions.slice();
-      }
-    }
-
-    if (this.i18nConfig.options.attr) {
-      if (this.i18nConfig.options.attr.extensions) {
-        this.extensions = this.extensions.concat(this.i18nConfig.options.attr.extensions);
-      }
+    if (this.i18nConfig.extensions) {
+      this.extensions = this.i18nConfig.extensions
     }
 
     // Remove leading dot
     this.extensions = this.extensions.map((ext) => ext.replace(/^\./, ''));
-    if (!this.i18nConfig.options.resource) {
-      this.i18nConfig.options.resource = {
-        loadPath: '{{lng}}/{{ns}}.json',
-        savePath: '{{lng}}/{{ns}}.json'
-      };
-    }
   }
 
   apply(compiler) {
@@ -87,7 +56,7 @@ class I18nextWebpackPlugin {
     }
     // check dest directory
     if (!this.i18nConfig.dest) {
-      this.i18nConfig.dest = path.join(__dirname.split('node_modules')[0], 'locales');
+      this.i18nConfig.dest = path.join(__dirname.split('node_modules')[0], './');
     }
 
     compiler.hooks.emit.tapAsync('i18nextWebpackPlugin', (compilation, callback) => {
@@ -115,7 +84,7 @@ class I18nextWebpackPlugin {
             )
           )
         )
-        .pipe(scanner(this.i18nConfig.options, this.i18nConfig.transform, this.i18nConfig.flush))
+        .pipe(new transform(this.i18nConfig.options))
         .pipe(vfs.dest(this.i18nConfig.dest))
         .on('end', () => {
           if (this.i18nConfig.async) {
