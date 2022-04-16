@@ -1,9 +1,8 @@
 {
   "name": "i18next-scanner-webpack",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Simple i18next-scanner webpack plugin",
   "main": "index.js",
-
   "scripts": {
     "test": "jest --runInBand",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
