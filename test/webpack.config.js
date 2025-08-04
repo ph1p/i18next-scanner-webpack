@@ -1,5 +1,6 @@
-const path = require('path');
-const I18nextWebpackPlugin = require('../index');
+import path from 'node:path';
+import I18nextWebpackPlugin from '../index.js';  // Add .js extension for ESM compatibility
+import { __dirname } from './utils.js';
 
 const i18nextPluginConfig = {
   dest: './test',
@@ -15,7 +16,7 @@ const i18nextPluginConfig = {
   }
 };
 
-module.exports = {
+const Config = {
   i18nextPluginConfig,
   config: {
     mode: 'development',
@@ -27,3 +28,5 @@ module.exports = {
     plugins: [new I18nextWebpackPlugin(i18nextPluginConfig)]
   }
 };
+
+export default Config;

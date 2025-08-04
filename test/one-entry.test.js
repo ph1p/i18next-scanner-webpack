@@ -1,6 +1,7 @@
-import path from 'path';
-import webpackOptions from './webpack.config';
-import { cleanUp, waitForWebpack } from './utils';
+import fs from 'node:fs';
+import path from 'node:path';
+import { __dirname, cleanUp, waitForWebpack } from './utils.js';
+import webpackOptions from './webpack.config.js';
 
 describe('webpack', () => {
   beforeEach(async () => {
@@ -18,8 +19,8 @@ describe('webpack', () => {
   afterEach(() => cleanUp(webpackOptions.config));
 
   test('Test webpack implementation (one entry)', () => {
-    const localeEnglish = require('./locales/en/translation.json');
-    const localeGerman = require('./locales/de/translation.json');
+    const localeEnglish = JSON.parse(fs.readFileSync('./test/locales/en/translation.json', 'utf8'));
+    const localeGerman = JSON.parse(fs.readFileSync('./test/locales/de/translation.json', 'utf8'));
 
     expect(localeEnglish).toEqual({
       'hi-iam-t': '',

@@ -5,13 +5,28 @@
 This is a simple i18n-scanner webpack-plugin.
 Based on this package: [i18next-parser](https://github.com/i18next/i18next-parser).
 
-**Example webpack.config.js**
+### Requirements
+
+- Node.js >= 14.16.0
+- Webpack 5.x
+
+### Installation
+
+```bash
+npm install i18next-scanner-webpack --save-dev
+# or
+yarn add i18next-scanner-webpack --dev
+```
+
+### Usage
+
+**Example webpack.config.js (ESM)**
 
 ```javascript
-const path = require('path');
-const i18nextWebpackPlugin = require('i18next-scanner-webpack');
+import path from 'node:path';
+import I18nextWebpackPlugin from 'i18next-scanner-webpack';
 
-module.exports = {
+export default {
   mode: 'development',
   entry: path.resolve(__dirname, './src/index.js'),
   output: {
@@ -19,19 +34,21 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
-    new i18nextWebpackPlugin({
+    new I18nextWebpackPlugin({
       // src defaults to ./src
       // dest defaults to ./ (project root folder)
       // default ['.js', '.jsx', '.vue']
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx'],
       // See options at https://github.com/i18next/i18next-parser#options
       options: {
         lexers: {
-          js: [{
-            lexer: 'JavascriptLexer',
-            // default ['t']
-            functions: ['t', '$t', 'i18next.t', 'i18n.t'],
-          }]
+          js: [
+            {
+              lexer: 'JavascriptLexer',
+              // default ['t']
+              functions: ['t', '$t', 'i18next.t', 'i18n.t']
+            }
+          ]
         },
         locales: ['en', 'de'],
         // defaults to locales/$LOCALE/$NAMESPACE.json
@@ -42,11 +59,11 @@ module.exports = {
 };
 ```
 
-**Minimal setup:**
+**Example webpack.config.js (CommonJS)**
 
 ```javascript
 const path = require('path');
-const i18nextWebpackPlugin = require('i18next-scanner-webpack');
+const I18nextWebpackPlugin = require('i18next-scanner-webpack');
 
 module.exports = {
   mode: 'development',
@@ -56,7 +73,30 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
-    new i18nextWebpackPlugin({
+    new I18nextWebpackPlugin({
+      options: {
+        locales: ['en', 'de']
+      }
+    })
+  ]
+};
+```
+
+**Minimal setup:**
+
+```javascript
+import path from 'node:path';
+import I18nextWebpackPlugin from 'i18next-scanner-webpack';
+
+export default {
+  mode: 'development',
+  entry: path.resolve(__dirname, './src/index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js'
+  },
+  plugins: [
+    new I18nextWebpackPlugin({
       options: {
         locales: ['en', 'de']
       }
@@ -70,10 +110,13 @@ module.exports = {
 If `async` option is `true`, the plugin will not wait for `i18next-scanner` to finish before reporting back to webpack. Useful in large projects or when using an expensive `transform`.
 
 ```javascript
-const path = require('path');
-const i18nextWebpackPlugin = require('i18next-scanner-webpack');
+import path from 'node:path';
+import I18nextWebpackPlugin from 'i18next-scanner-webpack';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default {
   mode: 'development',
   entry: path.resolve(__dirname, './src/index.js'),
   output: {
@@ -81,7 +124,7 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
-    new i18nextWebpackPlugin({
+    new I18nextWebpackPlugin({
       options: {
         locales: ['en', 'de']
       },
@@ -91,11 +134,14 @@ module.exports = {
 };
 ```
 
-| Name      | Description                                    | default   | Optional |
-| --------- | ---------------------------------------------- | --------- | -------- |
-| src       | source path of files with i18next translations | ./src     | yes      |
-| dest      | destination of translation files               | ./locales | yes      |
-| options   | all options                                    |           | yes      |
-| async     | If true, immediately report back to webpack    | false     | yes      |
+### Options
 
-Available options: [here](https://github.com/i18next/i18next-parser#options)
+| Name       | Description                                    | default                 | Optional |
+| ---------- | ---------------------------------------------- | ----------------------- | -------- |
+| src        | source path of files with i18next translations | ./src                   | yes      |
+| dest       | destination of translation files               | ./locales               | yes      |
+| options    | all options                                    |                         | yes      |
+| async      | If true, immediately report back to webpack    | false                   | yes      |
+| extensions | file extensions to scan                        | ['.js', '.jsx', '.vue'] | yes      |
+
+For more options, see: [i18next-parser documentation](https://github.com/i18next/i18next-parser#options)

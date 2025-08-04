@@ -1,6 +1,6 @@
-const { transform } = require('i18next-parser');
-const vfs = require('vinyl-fs');
-const path = require('path');
+import path from 'node:path';
+import { transform } from 'i18next-parser';
+import vfs from 'vinyl-fs';
 
 const isModule = (filePath) => !path.isAbsolute(filePath) && !filePath.startsWith('/') && !filePath.startsWith('./');
 const removeDuplicatesFromArray = (arr) => Array.from(new Set(arr).values());
@@ -23,13 +23,14 @@ const searchForAllFilePaths = (currentEntry, depth = 0) => {
 
   return paths;
 };
-class I18nextWebpackPlugin {
+
+export default class I18nextWebpackPlugin {
   constructor(config) {
     this.extensions = ['.js', '.jsx', '.vue'];
     this.i18nConfig = config;
 
     if (this.i18nConfig.extensions) {
-      this.extensions = this.i18nConfig.extensions
+      this.extensions = this.i18nConfig.extensions;
     }
 
     // Remove leading dot
@@ -56,21 +57,23 @@ class I18nextWebpackPlugin {
     }
     // check dest directory
     if (!this.i18nConfig.dest) {
-      this.i18nConfig.dest = path.join(__dirname.split('node_modules')[0], './');
+      // Get the project root directory without using __dirname which can be problematic in ESM
+      const currentWorkingDir = process.cwd();
+      this.i18nConfig.dest = currentWorkingDir;
     }
 
     compiler.hooks.emit.tapAsync('i18nextWebpackPlugin', (compilation, callback) => {
       if (!this.i18nConfig) {
         console.error('i18next-scanner:', 'i18n object is missing');
-        return;
+        return callback();
       }
       if (!this.i18nConfig.src || this.i18nConfig.src.length === 0) {
         console.error('i18next-scanner:', 'src path is missing');
-        return;
+        return callback();
       }
       if (!this.i18nConfig.dest) {
         console.error('i18next-scanner:', 'dest path is missing');
-        return;
+        return callback();
       }
 
       const commaSeperatedExtensions = this.extensions.map((ext) => ext.replace(/^\./, '')).join(',');
@@ -100,5 +103,3 @@ class I18nextWebpackPlugin {
     });
   }
 }
-
-module.exports = I18nextWebpackPlugin;
